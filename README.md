@@ -137,7 +137,7 @@ print(task.every_second)
 ```
 
 ### Arguments
-You can define a task with the arguments in teh following chapters.
+You can define a task with the arguments in the following chapters.
 
 #### RepTaskOrg:
 ```
