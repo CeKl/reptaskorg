@@ -1,4 +1,4 @@
-# REPeated Task ORGanizer - reptaskorg
+# REPeated TASK ORGanizer - reptaskorg
 
 Libary for repeated execution of functions at specific times.
 
