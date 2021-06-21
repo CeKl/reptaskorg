@@ -5,7 +5,7 @@ HERE = pathlib.Path(__file__).parent
 
 README = (HERE / "README.md").read_text()
 
-VERSION = '0.1.1'
+VERSION = '0.2'
 DESCRIPTION = 'Libary for repeated execution of functions at specific times.'
 
 setup(

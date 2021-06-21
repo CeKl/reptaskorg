@@ -1,10 +1,13 @@
-"""Libary for time dependend repetitive tasks.
+"""REPeated TASK ORGanizer - reptaskorg
 
-Raises:
-    ValueError: error fpr negative time; change type!
+Libary for time dependend repetitive tasks.
+
+MIT License
+Copyright (c) 2021 CeKl
+
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import threading
 
@@ -23,10 +26,17 @@ class ForbiddenTimeToSetError(Exception):
         return 'Forbidden time to set. Choose a valide time.'
 
 
+class OffsetError(Exception):
+    """Custom Exception - invalid offset."""
+
+    def __str__(self):
+        return 'Invalid offset. Choose a valide value.'
+
+
 class RepTaskOrg():
     """Timer to check repetitive tasks."""
 
-    def __init__(self, year=None, month=None, day=None, hour=None, minute=None, second=None):
+    def __init__(self, year=None, month=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object.
 
         Args:
@@ -36,7 +46,8 @@ class RepTaskOrg():
             hour (set, optional): valide hour. Defaults to None.
             minute (set, optional): valide minute. Defaults to None.
             second (set, optional): valide second. Defaults to None.
-            reminder (bool, optional): remind if time missed. Defaults to false.
+            offset_hour (int, optional): valide hour for offset. Defaults to 0.
+            offset_minute (int, optional): valide minute for offset. Defaults to 0.
 
         Raises:
             NoTimeToSetError: Error when no time is set
@@ -48,6 +59,23 @@ class RepTaskOrg():
         self.every_hour = hour
         self.every_minute = minute
         self.every_second = second
+
+        self.__utc_offset = False
+        if offset_hour or offset_minute:
+            self.__utc_offset = True
+
+        offset_direction = 1
+        if offset_hour < 0 or offset_minute < 0:
+            offset_direction = -1
+
+        if -12 <= offset_hour <= 14:
+            self.__offset_houer = abs(offset_hour) * offset_direction
+        else:
+            raise OffsetError()
+        if -45 <= offset_minute <= 45:
+            self.__offset_minute = abs(offset_minute) * offset_direction
+        else:
+            raise OffsetError()
 
         self.__trigger_status = False
         self.__condition = []
@@ -95,6 +123,26 @@ class RepTaskOrg():
         if __number_error_flag:
             raise ForbiddenTimeToSetError()
 
+    def set_time_offset(self, offset_hour=0, offset_minute=0):
+        offset_direction = 1
+        if offset_hour < 0 or offset_minute < 0:
+            offset_direction = -1
+
+        if -12 <= offset_hour <= 14:
+            self.__offset_houer = abs(offset_hour) * offset_direction
+        if -45 <= offset_minute <= 45:
+            self.__offset_minute = abs(offset_minute) * offset_direction
+
+        self.__utc_offset = True
+
+    def __get_time(self):
+        if self.__utc_offset:
+            current_time = datetime.utcnow() + timedelta(hours=self.__offset_houer,
+                                                         minutes=self.__offset_minute)
+        else:
+            current_time = datetime.now()
+        return current_time
+
     def __check_year(self, now):
         return now.year in self.every_year
 
@@ -120,7 +168,7 @@ class RepTaskOrg():
             bool: check status
         """
 
-        now = datetime.now()
+        now = self.__get_time()
 
         if all(check_condition(now) for check_condition in self.__condition):
             if not self.__trigger_status:
@@ -135,7 +183,7 @@ class RepTaskOrg():
 class RepTaskOrgTH():
     """Timer to check repetitive tasks in individual threads."""
 
-    def __init__(self, function, *function_arguments, year=None, month=None, day=None, hour=None, minute=None, second=None):
+    def __init__(self, function, *function_arguments, year=None, month=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object with threading.
 
         Args:
@@ -147,7 +195,8 @@ class RepTaskOrgTH():
             hour (set, optional): valide hour. Defaults to None.
             minute (set, optional): valide minute. Defaults to None.
             second (set, optional): valide second. Defaults to None.
-            reminder (bool, optional): remind if time missed. Defaults to false.
+            offset_hour (int, optional): valide hour for offset. Defaults to 0.
+            offset_minute (int, optional): valide minute for offset. Defaults to 0.
 
         Raises:
             NoTimeToSetError: Error when no time is set
@@ -159,6 +208,19 @@ class RepTaskOrgTH():
         self.every_hour = hour
         self.every_minute = minute
         self.every_second = second
+
+        self.__utc_offset = False
+        if offset_hour or offset_minute:
+            self.__utc_offset = True
+
+        offset_direction = 1
+        if offset_hour < 0 or offset_minute < 0:
+            offset_direction = -1
+
+        if -12 <= offset_hour <= 14:
+            self.__offset_houer = abs(offset_hour) * offset_direction
+        if -45 <= offset_minute <= 45:
+            self.__offset_minute = abs(offset_minute) * offset_direction
 
         self.__trigger_status = False
         self.__condition = []
@@ -227,6 +289,26 @@ class RepTaskOrgTH():
                 self.__function, self.__function_arguments,))
             self.__therad.start()
 
+    def set_time_offset(self, offset_hour=0, offset_minute=0):
+        offset_direction = 1
+        if offset_hour < 0 or offset_minute < 0:
+            offset_direction = -1
+
+        if -12 <= offset_hour <= 14:
+            self.__offset_houer = abs(offset_hour) * offset_direction
+        if -45 <= offset_minute <= 45:
+            self.__offset_minute = abs(offset_minute) * offset_direction
+
+        self.__utc_offset = True
+
+    def __get_time(self):
+        if self.__utc_offset:
+            current_time = datetime.utcnow() + timedelta(hours=self.__offset_houer,
+                                                         minutes=self.__offset_minute)
+        else:
+            current_time = datetime.now()
+        return current_time
+
     def __task_thread_new(self, function, function_arguments):
         while self.run_taks:
             if self.__check_task():
@@ -258,7 +340,7 @@ class RepTaskOrgTH():
             bool: check status
         """
 
-        now = datetime.now()
+        now = self.__get_time()
 
         if all(check_condition(now) for check_condition in self.__condition):
             if not self.__trigger_status:

@@ -25,7 +25,7 @@ def do_anotherthing(alarm_number, alarm_comment):
 def main():
     """Main-Function."""
 
-    # Define tasks with desired time stamps.
+    # Define tasks with desired timestamps.
     task_1 = RepTaskOrgTH(do_something, 1, second=[0, 10, 20, 30, 40, 50])
 
     # Define multiple arguments for given function at task

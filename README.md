@@ -14,7 +14,7 @@ Examples:
 - Every day, when hour 2, 8 and 12 and seconds 5 and 34 are reached:
 
     ```python
-    task = RepTaskOrg(hour=[2, 8, 12], second=[5, 34])  # 02:00:05, 02:00:31, 08:00:05, ...
+    task = RepTaskOrg(hour=[2, 8, 12], second=[5, 34])  # 02:00:05, 02:00:34, 08:00:05, ...
     ```
 
 - Every year, at the first second of may:
@@ -136,6 +136,18 @@ print(task.every_minute)
 print(task.every_second)
 ```
 
+By default, the Libary uses the current system time. You can set a UTC-time-offset by:
+
+```python
+# UTC
+task_1 = RepTaskOrg(second=[0, 10, 20, 30, 40, 50], offset_hour=0, offset_minute=0)
+task_2 = RepTaskOrgTH(do_something, 1, second=[0, 10, 20, 30, 40, 50], offset_hour=0, offset_minute=0)
+
+# United States (Pacific Time Zone) = UTC -08:00
+task_3 = RepTaskOrg(second=[0, 10, 20, 30, 40, 50], offset_hour=-8, offset_minute=0)
+task_4 = RepTaskOrgTH(do_something, 1, second=[0, 10, 20, 30, 40, 50], offset_hour=-8, offset_minute=0)
+```
+
 ### Arguments
 You can define a task with the arguments in the following chapters.
 
@@ -148,6 +160,8 @@ Args:
     hour (list, optional): valid hours. Defaults to None.
     minute (list, optional): valid minute. Defaults to None.
     second (list, optional): valid second. Defaults to None.
+    offset_hour (int, optional): valide hour for offset. Defaults to 0.
+    offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
 
 #### RepTaskOrgTH:
@@ -161,5 +175,6 @@ Args:
     hour (set, optional): valid hour. Defaults to None.
     minute (set, optional): valid minute. Defaults to None.
     second (set, optional): valid second. Defaults to None.
-    reminder (bool, optional): remind if time missed. Defaults to false.
+    offset_hour (int, optional): valide hour for offset. Defaults to 0.
+    offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
