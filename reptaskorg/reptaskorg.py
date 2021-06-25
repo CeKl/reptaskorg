@@ -3,7 +3,7 @@
 Libary for time dependend repetitive tasks.
 
 MIT License
-Copyright (c) 2021 CeKl
+Copyright (c) 2021 Cedric Klimt
 
 """
 
@@ -36,12 +36,13 @@ class OffsetError(Exception):
 class RepTaskOrg():
     """Timer to check repetitive tasks."""
 
-    def __init__(self, year=None, month=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
+    def __init__(self, year=None, month=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object.
 
         Args:
             year (set, optional): valide year. Defaults to None.
             month (set, optional): valide month. Defaults to None.
+            weekday (set, optional): valide day of week. Defaults to None.
             day (set, optional): valide day. Defaults to None.
             hour (set, optional): valide hour. Defaults to None.
             minute (set, optional): valide minute. Defaults to None.
@@ -55,6 +56,7 @@ class RepTaskOrg():
 
         self.every_year = year
         self.every_month = month
+        self.every_weekday = weekday
         self.every_day = day
         self.every_hour = hour
         self.every_minute = minute
@@ -82,7 +84,7 @@ class RepTaskOrg():
 
         __number_error_flag = False
 
-        for check_element in [year, month, day, hour, minute, second]:
+        for check_element in [year, month, weekday, day, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
                 self.every_year = set(year)
@@ -92,28 +94,34 @@ class RepTaskOrg():
                 if any(test_month > 12 for test_month in set(month)):
                     __number_error_flag = True
                     break
+            elif check_element == weekday and check_element is not None:
+                self.__condition.append(self.__check_weekday)
+                self.every_weekday = set(weekday)
+                if any(test_weekday > 6 for test_weekday in set(weekday)):
+                    __number_error_flag = True
+                    break
             elif check_element == day and check_element is not None:
                 self.__condition.append(self.__check_day)
                 self.every_day = set(day)
-                if any(test_month > 31 for test_month in set(day)):
+                if any(test_day > 31 for test_day in set(day)):
                     __number_error_flag = True
                     break
             elif check_element == hour and check_element is not None:
                 self.__condition.append(self.__check_hour)
                 self.every_hour = set(hour)
-                if any(test_month > 23 for test_month in set(hour)):
+                if any(test_hour > 23 for test_hour in set(hour)):
                     __number_error_flag = True
                     break
             elif check_element == minute and check_element is not None:
                 self.__condition.append(self.__check_minute)
                 self.every_minute = set(minute)
-                if any(test_month > 59 for test_month in set(minute)):
+                if any(test_minute > 59 for test_minute in set(minute)):
                     __number_error_flag = True
                     break
             elif check_element == second and check_element is not None:
                 self.__condition.append(self.__check_second)
                 self.every_second = set(second)
-                if any(test_month > 59 for test_month in set(second)):
+                if any(test_second > 59 for test_second in set(second)):
                     __number_error_flag = True
                     break
 
@@ -149,6 +157,9 @@ class RepTaskOrg():
     def __check_month(self, now):
         return now.moth in self.every_month
 
+    def __check_weekday(self, now):
+        return now.weekday() in self.every_weekday
+
     def __check_day(self, now):
         return now.day in self.every_day
 
@@ -183,7 +194,7 @@ class RepTaskOrg():
 class RepTaskOrgTH():
     """Timer to check repetitive tasks in individual threads."""
 
-    def __init__(self, function, *function_arguments, year=None, month=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
+    def __init__(self, function, *function_arguments, year=None, month=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object with threading.
 
         Args:
@@ -191,6 +202,7 @@ class RepTaskOrgTH():
             function_arguments (tuple): arguments of the given function.
             year (set, optional): valide year. Defaults to None.
             month (set, optional): valide month. Defaults to None.
+            weekday (set, optional): valide day of week. Defaults to None.
             day (set, optional): valide day. Defaults to None.
             hour (set, optional): valide hour. Defaults to None.
             minute (set, optional): valide minute. Defaults to None.
@@ -204,6 +216,7 @@ class RepTaskOrgTH():
 
         self.every_year = year
         self.every_month = month
+        self.every_weekday = weekday
         self.every_day = day
         self.every_hour = hour
         self.every_minute = minute
@@ -242,28 +255,34 @@ class RepTaskOrgTH():
                 if any(test_month > 12 for test_month in set(month)):
                     __number_error_flag = True
                     break
+            elif check_element == weekday and check_element is not None:
+                self.__condition.append(self.__check_weekday)
+                self.every_weekday = set(weekday)
+                if any(test_weekday > 6 for test_weekday in set(weekday)):
+                    __number_error_flag = True
+                    break
             elif check_element == day and check_element is not None:
                 self.__condition.append(self.__check_day)
                 self.every_day = set(day)
-                if any(test_month > 31 for test_month in set(day)):
+                if any(test_day > 31 for test_day in set(day)):
                     __number_error_flag = True
                     break
             elif check_element == hour and check_element is not None:
                 self.__condition.append(self.__check_hour)
                 self.every_hour = set(hour)
-                if any(test_month > 23 for test_month in set(hour)):
+                if any(test_hour > 23 for test_hour in set(hour)):
                     __number_error_flag = True
                     break
             elif check_element == minute and check_element is not None:
                 self.__condition.append(self.__check_minute)
                 self.every_minute = set(minute)
-                if any(test_month > 59 for test_month in set(minute)):
+                if any(test_minute > 59 for test_minute in set(minute)):
                     __number_error_flag = True
                     break
             elif check_element == second and check_element is not None:
                 self.__condition.append(self.__check_second)
                 self.every_second = set(second)
-                if any(test_month > 59 for test_month in set(second)):
+                if any(test_second > 59 for test_second in set(second)):
                     __number_error_flag = True
                     break
 
@@ -282,7 +301,7 @@ class RepTaskOrgTH():
         self.run_taks = False
 
     def restart_task(self):
-        """Restart tastk."""
+        """Restart task."""
         self.run_taks = True
         if not self.__therad.is_alive():
             self.__therad = threading.Thread(target=self.__task_thread_new, args=(
@@ -320,6 +339,9 @@ class RepTaskOrgTH():
 
     def __check_month(self, now):
         return now.moth in self.every_month
+
+    def __check_weekday(self, now):
+        return now.weekday() in self.every_weekday
 
     def __check_day(self, now):
         return now.day in self.every_day

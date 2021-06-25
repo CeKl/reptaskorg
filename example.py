@@ -18,6 +18,7 @@ def main():
     # Define tasks with desired timestamps.
     task_1 = RepTaskOrg(second=[0, 10, 20, 30, 40, 50])
     task_2 = RepTaskOrg(minute=[26, 28, 29], second=[0, 10, 20, 30, 40, 50])
+    task_3 = RepTaskOrg(weekday=[0, 1, 2, 3, 4], hour=[8])
 
     print('active timer 1 settings: {}'.format(task_1.every_second))
 
@@ -29,6 +30,10 @@ def main():
 
         if task_2.check_task():
             do_something(2)
+
+        if task_3.check_task():
+            do_something(3)
+
         time.sleep(0.001)
 
 

@@ -32,8 +32,12 @@ def main():
     task_2 = RepTaskOrgTH(do_anotherthing, 2, 'test_2', minute=[33, 34, 36], second=[0, 10, 20, 30, 40, 50])
 
     # Main-loop for other tasks
-    while True:
+    run_loop = True
+    while run_loop:
         time.sleep(0.001)
+
+    task_1.stop_task()
+    task_2.stop_task()
 
 
 if __name__ == "__main__":

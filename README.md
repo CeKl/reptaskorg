@@ -2,6 +2,12 @@
 
 Libary for repeated execution of functions at specific times.
 
+[![Python](https://img.shields.io/pypi/pyversions/reptaskorg.svg)](https://badge.fury.io/py/reptaskorg)
+[![PyPI](https://badge.fury.io/py/reptaskorg.svg)](https://badge.fury.io/py/reptaskorg)
+[![Python](https://img.shields.io/github/license/CeKl/reptaskorg.svg)](https://opensource.org/licenses/MIT)
+[![DeepSource](https://deepsource.io/gh/CeKl/reptaskorg.svg/?label=active+issues&token=mnSch-Vhc33NaLvBemavHOoD)](https://deepsource.io/gh/CeKl/reptaskorg/?ref=repository-badge)
+
+
 Examples:
 
 - Every minute, when seconds 5 and 34 are reached:
@@ -11,7 +17,7 @@ Examples:
 
     ```
 
-- Every day, when hour 2, 8 and 12 and seconds 5 and 34 are reached:
+- Every day, when hours 2, 8 and 12 and seconds 5 and 34 are reached:
 
     ```python
     task = RepTaskOrg(hour=[2, 8, 12], second=[5, 34])  # 02:00:05, 02:00:34, 08:00:05, ...
@@ -23,9 +29,23 @@ Examples:
     task = RepTaskOrg(month=[5])  # 2021.05.01 00:00:00, 2022.05.01 00:00:00, ...
     ```
 
-## Installation
+- Every monday at 8 am:
 
-For installation use Pypi:
+    ```python
+    task = RepTaskOrg(weekday=[0], hour=[8])  # 2021.05.03 08:00:00, 2022.05.10 08:00:00, ...
+    ```
+
+## Table of Contents
+- [Install](#install)
+- [Usage](#usage)
+    - [without threading](#without-threading)
+    - [with threading](#with-threading)
+    - [other features](#other-features)
+- [Arguments](#arguments)
+
+## Install
+
+For installation use [Pypi](https://pypi.org/project/reptaskorg/):
 
 `pip install reptaskorg` or `pip3 install reptaskorg`
 
@@ -39,6 +59,7 @@ If you have no time-consuming tasks in your main loop RapTaskOrg is a good solut
 import datetime
 import time
 from reptaskorg import RepTaskOrg
+
 
 def do_something(alarm_number):
     print('{} - ALARM {}'.format(datetime.datetime.now().strftime('%H:%M:%S:%f'), alarm_number))
@@ -70,7 +91,7 @@ if __name__ == "__main__":
 
 ### with threading
 
-If you have time-consuming tasks in your main loop use RepTaskOrgTH.
+If you have time-consuming tasks in your main loop use RepTaskOrgTH. Here a separate thread is started for each task.
 
 ```python
 import datetime
@@ -115,7 +136,7 @@ if __name__ == "__main__":
     main()
 
 ```
-
+### other features
 You can stop and restart task-threads by:
 
 ```python
@@ -130,6 +151,7 @@ Information on the set timer are showed by:
 ```python
 print(task.every_year)
 print(task.every_month)
+print(task.every_weekday)
 print(task.every_day)
 print(task.every_hour)
 print(task.every_minute)
@@ -148,14 +170,15 @@ task_3 = RepTaskOrg(second=[0, 10, 20, 30, 40, 50], offset_hour=-8, offset_minut
 task_4 = RepTaskOrgTH(do_something, 1, second=[0, 10, 20, 30, 40, 50], offset_hour=-8, offset_minute=0)
 ```
 
-### Arguments
+## Arguments
 You can define a task with the arguments in the following chapters.
 
-#### RepTaskOrg:
+### RepTaskOrg:
 ```
 Args:
     year (list, optional): valid year. Defaults to None.
     month (list, optional): valid month. Defaults to None.
+    weekday (set, optional): valide day of week. Defaults to None.
     day (list, optional): valid day. Defaults to None.
     hour (list, optional): valid hours. Defaults to None.
     minute (list, optional): valid minute. Defaults to None.
@@ -164,13 +187,14 @@ Args:
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
 
-#### RepTaskOrgTH:
+### RepTaskOrgTH:
 ```
 Args:
     function (function): function to execute.
     function_arguments (tuple): parameters of the given function.
     year (set, optional): valid year. Defaults to None.
     month (set, optional): valid month. Defaults to None.
+    weekday (set, optional): valide day of week. Defaults to None.
     day (set, optional): valid day. Defaults to None.
     hour (set, optional): valid hour. Defaults to None.
     minute (set, optional): valid minute. Defaults to None.
@@ -178,3 +202,6 @@ Args:
     offset_hour (int, optional): valide hour for offset. Defaults to 0.
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
+
+- - -
+[MIT License](https://opensource.org/licenses/MIT) Copyright (c) 2021 Cedric Klimt
