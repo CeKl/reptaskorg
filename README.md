@@ -34,7 +34,7 @@ Examples:
     ```python
     task = RepTaskOrg(weekday=[0], hour=[8])  # 2021.05.03 08:00:00, 2022.05.10 08:00:00, ...
     ```
-- Every day in week 19 at 8 am:
+- Every day in week 18 at 8 am:
 
     ```python
     task = RepTaskOrg(week=[18], hour=[8])  # 2021.05.03 08:00:00, 2022.05.04 08:00:00, ...
