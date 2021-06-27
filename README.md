@@ -34,6 +34,11 @@ Examples:
     ```python
     task = RepTaskOrg(weekday=[0], hour=[8])  # 2021.05.03 08:00:00, 2022.05.10 08:00:00, ...
     ```
+- Every day in week 19 at 8 am:
+
+    ```python
+    task = RepTaskOrg(week=[18], hour=[8])  # 2021.05.03 08:00:00, 2022.05.04 08:00:00, ...
+    ```
 
 ## Table of Contents
 - [Install](#install)
@@ -42,6 +47,7 @@ Examples:
     - [with threading](#with-threading)
     - [other features](#other-features)
 - [Arguments](#arguments)
+- [Release Notes](#release-notes)
 
 ## Install
 
@@ -151,6 +157,7 @@ Information on the set timer are showed by:
 ```python
 print(task.every_year)
 print(task.every_month)
+print(task.every_week)
 print(task.every_weekday)
 print(task.every_day)
 print(task.every_hour)
@@ -178,6 +185,7 @@ You can define a task with the arguments in the following chapters.
 Args:
     year (list, optional): valid year. Defaults to None.
     month (list, optional): valid month. Defaults to None.
+    week (set, optional): valide week. Defaults to None.
     weekday (set, optional): valide day of week. Defaults to None.
     day (list, optional): valid day. Defaults to None.
     hour (list, optional): valid hours. Defaults to None.
@@ -187,13 +195,14 @@ Args:
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
 
-### RepTaskOrgTH:
+### Release Notes:
 ```
 Args:
     function (function): function to execute.
     function_arguments (tuple): parameters of the given function.
     year (set, optional): valid year. Defaults to None.
     month (set, optional): valid month. Defaults to None.
+    week (set, optional): valide week. Defaults to None.
     weekday (set, optional): valide day of week. Defaults to None.
     day (set, optional): valid day. Defaults to None.
     hour (set, optional): valid hour. Defaults to None.
@@ -202,6 +211,23 @@ Args:
     offset_hour (int, optional): valide hour for offset. Defaults to 0.
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
+
+## Release Notes
+### 0.2.2
+* Bugfix if only weekday was set
+* Introduction weeks as argument
+
+### 0.2.1
+* Introduction weekday as argument
+
+### 0.2
+* Introduction UTC - offset as argument
+
+### 0.1.1 
+* Revision of the documentation
+
+### 0.1
+* Initial release
 
 - - -
 [MIT License](https://opensource.org/licenses/MIT) Copyright (c) 2021 Cedric Klimt

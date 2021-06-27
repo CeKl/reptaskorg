@@ -36,12 +36,13 @@ class OffsetError(Exception):
 class RepTaskOrg():
     """Timer to check repetitive tasks."""
 
-    def __init__(self, year=None, month=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
+    def __init__(self, year=None, month=None, week=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object.
 
         Args:
             year (set, optional): valide year. Defaults to None.
             month (set, optional): valide month. Defaults to None.
+            week (set, optional): valide week. Defaults to None.
             weekday (set, optional): valide day of week. Defaults to None.
             day (set, optional): valide day. Defaults to None.
             hour (set, optional): valide hour. Defaults to None.
@@ -56,6 +57,7 @@ class RepTaskOrg():
 
         self.every_year = year
         self.every_month = month
+        self.every_week = week
         self.every_weekday = weekday
         self.every_day = day
         self.every_hour = hour
@@ -74,6 +76,7 @@ class RepTaskOrg():
             self.__offset_houer = abs(offset_hour) * offset_direction
         else:
             raise OffsetError()
+
         if -45 <= offset_minute <= 45:
             self.__offset_minute = abs(offset_minute) * offset_direction
         else:
@@ -84,7 +87,7 @@ class RepTaskOrg():
 
         __number_error_flag = False
 
-        for check_element in [year, month, weekday, day, hour, minute, second]:
+        for check_element in [year, month, week, weekday, day, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
                 self.every_year = set(year)
@@ -92,6 +95,12 @@ class RepTaskOrg():
                 self.__condition.append(self.__check_month)
                 self.every_month = set(month)
                 if any(test_month > 12 for test_month in set(month)):
+                    __number_error_flag = True
+                    break
+            elif check_element == week and check_element is not None:
+                self.__condition.append(self.__check_week)
+                self.every_week = set(week)
+                if any(test_week < 0 or test_week > 53 for test_week in set(week)):
                     __number_error_flag = True
                     break
             elif check_element == weekday and check_element is not None:
@@ -138,8 +147,13 @@ class RepTaskOrg():
 
         if -12 <= offset_hour <= 14:
             self.__offset_houer = abs(offset_hour) * offset_direction
+        else:
+            raise OffsetError()
+
         if -45 <= offset_minute <= 45:
             self.__offset_minute = abs(offset_minute) * offset_direction
+        else:
+            raise OffsetError()
 
         self.__utc_offset = True
 
@@ -156,6 +170,9 @@ class RepTaskOrg():
 
     def __check_month(self, now):
         return now.moth in self.every_month
+
+    def __check_week(self, now):
+        return now.isocalendar()[1] in self.every_week
 
     def __check_weekday(self, now):
         return now.weekday() in self.every_weekday
@@ -194,7 +211,7 @@ class RepTaskOrg():
 class RepTaskOrgTH():
     """Timer to check repetitive tasks in individual threads."""
 
-    def __init__(self, function, *function_arguments, year=None, month=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
+    def __init__(self, function, *function_arguments, year=None, month=None, week=None, weekday=None, day=None, hour=None, minute=None, second=None, offset_hour=0, offset_minute=0):
         """Set timer-object with threading.
 
         Args:
@@ -202,6 +219,7 @@ class RepTaskOrgTH():
             function_arguments (tuple): arguments of the given function.
             year (set, optional): valide year. Defaults to None.
             month (set, optional): valide month. Defaults to None.
+            week (set, optional): valide week. Defaults to None.
             weekday (set, optional): valide day of week. Defaults to None.
             day (set, optional): valide day. Defaults to None.
             hour (set, optional): valide hour. Defaults to None.
@@ -216,6 +234,7 @@ class RepTaskOrgTH():
 
         self.every_year = year
         self.every_month = month
+        self.every_week = week
         self.every_weekday = weekday
         self.every_day = day
         self.every_hour = hour
@@ -232,8 +251,13 @@ class RepTaskOrgTH():
 
         if -12 <= offset_hour <= 14:
             self.__offset_houer = abs(offset_hour) * offset_direction
+        else:
+            raise OffsetError()
+
         if -45 <= offset_minute <= 45:
             self.__offset_minute = abs(offset_minute) * offset_direction
+        else:
+            raise OffsetError()
 
         self.__trigger_status = False
         self.__condition = []
@@ -245,7 +269,7 @@ class RepTaskOrgTH():
 
         __number_error_flag = False
 
-        for check_element in [year, month, day, hour, minute, second]:
+        for check_element in [year, month, day, week, weekday, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
                 self.every_year = set(year)
@@ -253,6 +277,12 @@ class RepTaskOrgTH():
                 self.__condition.append(self.__check_month)
                 self.every_month = set(month)
                 if any(test_month > 12 for test_month in set(month)):
+                    __number_error_flag = True
+                    break
+            elif check_element == week and check_element is not None:
+                self.__condition.append(self.__check_week)
+                self.every_week = set(week)
+                if any(test_week < 0 or test_week > 53 for test_week in set(week)):
                     __number_error_flag = True
                     break
             elif check_element == weekday and check_element is not None:
@@ -315,8 +345,13 @@ class RepTaskOrgTH():
 
         if -12 <= offset_hour <= 14:
             self.__offset_houer = abs(offset_hour) * offset_direction
+        else:
+            raise OffsetError()
+
         if -45 <= offset_minute <= 45:
             self.__offset_minute = abs(offset_minute) * offset_direction
+        else:
+            raise OffsetError()
 
         self.__utc_offset = True
 
@@ -339,6 +374,9 @@ class RepTaskOrgTH():
 
     def __check_month(self, now):
         return now.moth in self.every_month
+
+    def __check_week(self, now):
+        return now.isocalendar()[1] in self.every_week
 
     def __check_weekday(self, now):
         return now.weekday() in self.every_weekday
