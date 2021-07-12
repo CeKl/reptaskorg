@@ -87,49 +87,59 @@ class RepTaskOrg():
 
         __number_error_flag = False
 
+        self.set_timer = {}
+
         for check_element in [year, month, week, weekday, day, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
-                self.every_year = set(year)
+                self.every_year = sorted(set(year))
+                self.set_timer['year'] = sorted(set(year))
             elif check_element == month and check_element is not None:
                 self.__condition.append(self.__check_month)
-                self.every_month = set(month)
+                self.every_month = sorted(set(month))
+                self.set_timer['month'] = sorted(set(month))
                 if any(test_month > 12 for test_month in set(month)):
                     __number_error_flag = True
                     break
             elif check_element == week and check_element is not None:
                 self.__condition.append(self.__check_week)
-                self.every_week = set(week)
+                self.every_week = sorted(set(week))
+                self.set_timer['week'] = sorted(set(week))
                 if any(test_week < 0 or test_week > 53 for test_week in set(week)):
                     __number_error_flag = True
                     break
             elif check_element == weekday and check_element is not None:
                 self.__condition.append(self.__check_weekday)
-                self.every_weekday = set(weekday)
+                self.every_weekday = sorted(set(weekday))
+                self.set_timer['weekday'] = sorted(set(weekday))
                 if any(test_weekday > 6 for test_weekday in set(weekday)):
                     __number_error_flag = True
                     break
             elif check_element == day and check_element is not None:
                 self.__condition.append(self.__check_day)
-                self.every_day = set(day)
+                self.every_day = sorted(set(day))
+                self.set_timer['day'] = sorted(set(day))
                 if any(test_day > 31 for test_day in set(day)):
                     __number_error_flag = True
                     break
             elif check_element == hour and check_element is not None:
                 self.__condition.append(self.__check_hour)
-                self.every_hour = set(hour)
+                self.every_hour = sorted(set(hour))
+                self.set_timer['hour'] = sorted(set(hour))
                 if any(test_hour > 23 for test_hour in set(hour)):
                     __number_error_flag = True
                     break
             elif check_element == minute and check_element is not None:
                 self.__condition.append(self.__check_minute)
-                self.every_minute = set(minute)
+                self.every_minute = sorted(set(minute))
+                self.set_timer['minute'] = sorted(set(minute))
                 if any(test_minute > 59 for test_minute in set(minute)):
                     __number_error_flag = True
                     break
             elif check_element == second and check_element is not None:
                 self.__condition.append(self.__check_second)
-                self.every_second = set(second)
+                self.every_second = sorted(set(second))
+                self.set_timer['second'] = sorted(set(second))
                 if any(test_second > 59 for test_second in set(second)):
                     __number_error_flag = True
                     break
@@ -269,49 +279,59 @@ class RepTaskOrgTH():
 
         __number_error_flag = False
 
+        self.set_timer = {}
+
         for check_element in [year, month, day, week, weekday, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
-                self.every_year = set(year)
+                self.every_year = sorted(set(year))
+                self.set_timer['year'] = sorted(set(year))
             elif check_element == month and check_element is not None:
                 self.__condition.append(self.__check_month)
-                self.every_month = set(month)
+                self.every_month = sorted(set(month))
+                self.set_timer['month'] = sorted(set(month))
                 if any(test_month > 12 for test_month in set(month)):
                     __number_error_flag = True
                     break
             elif check_element == week and check_element is not None:
                 self.__condition.append(self.__check_week)
-                self.every_week = set(week)
+                self.every_week = sorted(set(week))
+                self.set_timer['week'] = sorted(set(week))
                 if any(test_week < 0 or test_week > 53 for test_week in set(week)):
                     __number_error_flag = True
                     break
             elif check_element == weekday and check_element is not None:
                 self.__condition.append(self.__check_weekday)
-                self.every_weekday = set(weekday)
+                self.every_weekday = sorted(set(weekday))
+                self.set_timer['weekday'] = sorted(set(weekday))
                 if any(test_weekday > 6 for test_weekday in set(weekday)):
                     __number_error_flag = True
                     break
             elif check_element == day and check_element is not None:
                 self.__condition.append(self.__check_day)
-                self.every_day = set(day)
+                self.every_day = sorted(set(day))
+                self.set_timer['day'] = sorted(set(day))
                 if any(test_day > 31 for test_day in set(day)):
                     __number_error_flag = True
                     break
             elif check_element == hour and check_element is not None:
                 self.__condition.append(self.__check_hour)
-                self.every_hour = set(hour)
+                self.every_hour = sorted(set(hour))
+                self.set_timer['hour'] = sorted(set(hour))
                 if any(test_hour > 23 for test_hour in set(hour)):
                     __number_error_flag = True
                     break
             elif check_element == minute and check_element is not None:
                 self.__condition.append(self.__check_minute)
-                self.every_minute = set(minute)
+                self.every_minute = sorted(set(minute))
+                self.set_timer['minute'] = sorted(set(minute))
                 if any(test_minute > 59 for test_minute in set(minute)):
                     __number_error_flag = True
                     break
             elif check_element == second and check_element is not None:
                 self.__condition.append(self.__check_second)
-                self.every_second = set(second)
+                self.every_second = sorted(set(second))
+                self.set_timer['second'] = sorted(set(second))
                 if any(test_second > 59 for test_second in set(second)):
                     __number_error_flag = True
                     break

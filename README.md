@@ -155,6 +155,7 @@ task.restart_task()
 
 Information on the set timer are showed by:
 ```python
+# show one parameter
 print(task.every_year)
 print(task.every_month)
 print(task.every_week)
@@ -163,6 +164,9 @@ print(task.every_day)
 print(task.every_hour)
 print(task.every_minute)
 print(task.every_second)
+
+# show all set parameters
+print(task.set_time)
 ```
 
 By default, the Libary uses the current system time. You can set a UTC-time-offset by:
@@ -213,6 +217,9 @@ Args:
 ```
 
 ## Release Notes
+### 0.2.3
+* show all set parameters with task.set_timer
+
 ### 0.2.2
 * Bugfix if only weekday was set
 * Introduction weeks as argument

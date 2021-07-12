@@ -31,6 +31,9 @@ def main():
     # Define multiple arguments for given function at task
     task_2 = RepTaskOrgTH(do_anotherthing, 2, 'test_2', minute=[33, 34, 36], second=[0, 10, 20, 30, 40, 50])
 
+    # Show set time for timer 1
+    print('active timer 1 settings: {}'.format(task_2.set_timer))
+
     # Main-loop for other tasks
     run_loop = True
     while run_loop:

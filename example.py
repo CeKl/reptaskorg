@@ -21,8 +21,8 @@ def main():
     task_3 = RepTaskOrg(weekday=[0, 1, 2, 3, 4], hour=[8])
     task_4 = RepTaskOrg(week=[18])
 
-
-    print('active timer 1 settings: {}'.format(task_1.every_second))
+    # Show set time for timer 1
+    print('active timer 1 settings: {}'.format(task_1.set_timer))
 
     # Call Task repeatedly to keep it up to date.
     while True:
