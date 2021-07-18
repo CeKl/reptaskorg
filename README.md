@@ -199,7 +199,7 @@ Args:
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
 
-### Release Notes:
+### RepTaskOrgTH:
 ```
 Args:
     function (function): function to execute.
