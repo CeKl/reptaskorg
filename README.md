@@ -7,7 +7,6 @@ Libary for repeated execution of functions at specific times.
 [![Python](https://img.shields.io/github/license/CeKl/reptaskorg.svg)](https://opensource.org/licenses/MIT)
 [![DeepSource](https://deepsource.io/gh/CeKl/reptaskorg.svg/?label=active+issues&token=mnSch-Vhc33NaLvBemavHOoD)](https://deepsource.io/gh/CeKl/reptaskorg/?ref=repository-badge)
 
-
 Examples:
 
 - Every minute, when seconds 5 and 34 are reached:
@@ -34,6 +33,7 @@ Examples:
     ```python
     task = RepTaskOrg(weekday=[0], hour=[8])  # 2021.05.03 08:00:00, 2022.05.10 08:00:00, ...
     ```
+
 - Every day in week 18 at 8 am:
 
     ```python
@@ -41,13 +41,25 @@ Examples:
     ```
 
 ## Table of Contents
-- [Install](#install)
-- [Usage](#usage)
-    - [without threading](#without-threading)
-    - [with threading](#with-threading)
-    - [other features](#other-features)
-- [Arguments](#arguments)
-- [Release Notes](#release-notes)
+
+- [REPeated TASK ORGanizer - reptaskorg](#repeated-task-organizer---reptaskorg)
+  - [Table of Contents](#table-of-contents)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [Without threading](#without-threading)
+    - [With threading](#with-threading)
+    - [Other features](#other-features)
+  - [Arguments](#arguments)
+    - [RepTaskOrg](#reptaskorg)
+    - [RepTaskOrgTH](#reptaskorgth)
+  - [Release Notes](#release-notes)
+    - [1.0.0](#100)
+    - [0.2.3](#023)
+    - [0.2.2](#022)
+    - [0.2.1](#021)
+    - [0.2](#02)
+    - [0.1.1](#011)
+    - [0.1](#01)
 
 ## Install
 
@@ -57,7 +69,7 @@ For installation use [Pypi](https://pypi.org/project/reptaskorg/):
 
 ## Usage
 
-### without threading
+### Without threading
 
 If you have no time-consuming tasks in your main loop RapTaskOrg is a good solution.
 
@@ -95,7 +107,7 @@ if __name__ == "__main__":
 
 ```
 
-### with threading
+### With threading
 
 If you have time-consuming tasks in your main loop use RepTaskOrgTH. Here a separate thread is started for each task.
 
@@ -142,7 +154,9 @@ if __name__ == "__main__":
     main()
 
 ```
-### other features
+
+### Other features
+
 You can stop and restart task-threads by:
 
 ```python
@@ -154,6 +168,7 @@ task.restart_task()
 ```
 
 Information on the set timer are showed by:
+
 ```python
 # show one parameter
 print(task.every_year)
@@ -182,9 +197,11 @@ task_4 = RepTaskOrgTH(do_something, 1, second=[0, 10, 20, 30, 40, 50], offset_ho
 ```
 
 ## Arguments
+
 You can define a task with the arguments in the following chapters.
 
-### RepTaskOrg:
+### RepTaskOrg
+
 ```
 Args:
     year (list, optional): valid year. Defaults to None.
@@ -199,7 +216,8 @@ Args:
     offset_minute (int, optional): valide minute for offset. Defaults to 0.
 ```
 
-### RepTaskOrgTH:
+### RepTaskOrgTH
+
 ```
 Args:
     function (function): function to execute.
@@ -217,24 +235,37 @@ Args:
 ```
 
 ## Release Notes
+
+### 1.0.0
+
+- Stable Release
+- Exception TimemachineError introduced
+- Minor changes of the documentation in the code
+
 ### 0.2.3
-* show all set parameters with task.set_timer
+
+- Show all set parameters with task.set_timer
 
 ### 0.2.2
-* Bugfix if only weekday was set
-* Introduction weeks as argument
+
+- Bugfix if only weekday was set
+- Introduction weeks as argument
 
 ### 0.2.1
-* Introduction weekday as argument
+
+- Introduction weekday as argument
 
 ### 0.2
-* Introduction UTC - offset as argument
 
-### 0.1.1 
-* Revision of the documentation
+- Introduction UTC - offset as argument
+
+### 0.1.1
+
+- Revision of the documentation
 
 ### 0.1
-* Initial release
+
+- Initial release
 
 - - -
 [MIT License](https://opensource.org/licenses/MIT) Copyright (c) 2021 Cedric Klimt

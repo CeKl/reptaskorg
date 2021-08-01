@@ -39,7 +39,7 @@ def main():
         if task_4.check_task():
             do_something(4)
 
-        time.sleep(0.001)
+        time.sleep(0.0000001)
 
 
 if __name__ == "__main__":

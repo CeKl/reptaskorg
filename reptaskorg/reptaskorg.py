@@ -25,6 +25,12 @@ class ForbiddenTimeToSetError(Exception):
     def __str__(self):
         return 'Forbidden time to set. Choose a valide time.'
 
+class TimemachineError(Exception):
+    """Custom Exception - Set time is only in the past."""
+
+    def __str__(self):
+        return 'Set time is only in the past.'
+
 
 class OffsetError(Exception):
     """Custom Exception - invalid offset."""
@@ -52,7 +58,10 @@ class RepTaskOrg():
             offset_minute (int, optional): valide minute for offset. Defaults to 0.
 
         Raises:
-            NoTimeToSetError: Error when no time is set
+            OffsetError: Error when offset is forbidden.
+            TimemachineError: Error when time is only in the past
+            NoTimeToSetError: Error when no time is set.
+            ForbiddenTimeToSetError: Error when forbidden time is set.
         """
 
         self.every_year = year
@@ -89,11 +98,15 @@ class RepTaskOrg():
 
         self.set_timer = {}
 
+        __init_time = self.__get_time()
+
         for check_element in [year, month, week, weekday, day, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
                 self.every_year = sorted(set(year))
                 self.set_timer['year'] = sorted(set(year))
+                if any(test_year < __init_time.year for test_year in set(year)):
+                    raise TimemachineError()
             elif check_element == month and check_element is not None:
                 self.__condition.append(self.__check_month)
                 self.every_month = sorted(set(month))
@@ -151,6 +164,16 @@ class RepTaskOrg():
             raise ForbiddenTimeToSetError()
 
     def set_time_offset(self, offset_hour=0, offset_minute=0):
+        """Set UTC offset.
+
+        Args:
+            offset_hour (int, optional): UTC offset in hours. Defaults to 0.
+            offset_minute (int, optional): UTC offset in minutes. Defaults to 0.
+
+        Raises:
+            OffsetError: Not allowed offset used.
+        """
+
         offset_direction = 1
         if offset_hour < 0 or offset_minute < 0:
             offset_direction = -1
@@ -203,7 +226,7 @@ class RepTaskOrg():
         """Check the conditions. Returns true if choosen time is correct.
 
         Returns:
-            bool: check status
+            bool: Check status. Time reached = True. Time not reached = False
         """
 
         now = self.__get_time()
@@ -239,7 +262,10 @@ class RepTaskOrgTH():
             offset_minute (int, optional): valide minute for offset. Defaults to 0.
 
         Raises:
-            NoTimeToSetError: Error when no time is set
+            OffsetError: Error when offset is forbidden.
+            TimemachineError: Error when time is only in the past
+            NoTimeToSetError: Error when no time is set.
+            ForbiddenTimeToSetError: Error when forbidden time is set.
         """
 
         self.every_year = year
@@ -281,11 +307,15 @@ class RepTaskOrgTH():
 
         self.set_timer = {}
 
+        __init_time = self.__get_time()
+
         for check_element in [year, month, day, week, weekday, hour, minute, second]:
             if check_element == year and check_element is not None:
                 self.__condition.append(self.__check_year)
                 self.every_year = sorted(set(year))
                 self.set_timer['year'] = sorted(set(year))
+                if any(test_year < __init_time.year for test_year in set(year)):
+                    raise TimemachineError()
             elif check_element == month and check_element is not None:
                 self.__condition.append(self.__check_month)
                 self.every_month = sorted(set(month))
@@ -357,8 +387,24 @@ class RepTaskOrgTH():
             self.__therad = threading.Thread(target=self.__task_thread_new, args=(
                 self.__function, self.__function_arguments,))
             self.__therad.start()
+  
+    def __task_thread_new(self, function, function_arguments):
+        while self.run_taks:
+            if self.__check_task():
+                function(*function_arguments)
+            time.sleep(0.0000001)
 
     def set_time_offset(self, offset_hour=0, offset_minute=0):
+        """Set UTC offset.
+
+        Args:
+            offset_hour (int, optional): UTC offset in hours. Defaults to 0.
+            offset_minute (int, optional): UTC offset in minutes. Defaults to 0.
+
+        Raises:
+            OffsetError: Not allowed offset used.
+        """
+
         offset_direction = 1
         if offset_hour < 0 or offset_minute < 0:
             offset_direction = -1
@@ -382,12 +428,6 @@ class RepTaskOrgTH():
         else:
             current_time = datetime.now()
         return current_time
-
-    def __task_thread_new(self, function, function_arguments):
-        while self.run_taks:
-            if self.__check_task():
-                function(*function_arguments)
-            time.sleep(0.001)
 
     def __check_year(self, now):
         return now.year in self.every_year
@@ -417,7 +457,7 @@ class RepTaskOrgTH():
         """Check the conditions. Returns true if choosen time is correct.
 
         Returns:
-            bool: check status
+            bool: Check status. Time reached = True. Time not reached = False
         """
 
         now = self.__get_time()

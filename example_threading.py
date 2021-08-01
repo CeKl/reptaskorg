@@ -37,7 +37,7 @@ def main():
     # Main-loop for other tasks
     run_loop = True
     while run_loop:
-        time.sleep(0.001)
+        time.sleep(0.0000001)
 
     task_1.stop_task()
     task_2.stop_task()
