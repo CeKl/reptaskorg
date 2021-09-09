@@ -53,6 +53,7 @@ Examples:
     - [RepTaskOrg](#reptaskorg)
     - [RepTaskOrgTH](#reptaskorgth)
   - [Release Notes](#release-notes)
+    - [1.0.1](#101)
     - [1.0.0](#100)
     - [0.2.3](#023)
     - [0.2.2](#022)
@@ -235,6 +236,12 @@ Args:
 ```
 
 ## Release Notes
+
+### 1.0.1
+
+- Fix typo
+- Check current run-status
+- Testing implemented
 
 ### 1.0.0
 

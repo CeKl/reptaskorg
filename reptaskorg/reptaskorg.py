@@ -298,7 +298,7 @@ class RepTaskOrgTH():
         self.__trigger_status = False
         self.__condition = []
 
-        self.run_taks = True
+        self.__run_task = True
 
         self.__function = function
         self.__function_arguments = function_arguments
@@ -378,18 +378,21 @@ class RepTaskOrgTH():
 
     def stop_task(self):
         """Stop a runnung task."""
-        self.run_taks = False
+        self.__run_task = False
 
     def restart_task(self):
         """Restart task."""
-        self.run_taks = True
+        self.__run_task = True
         if not self.__therad.is_alive():
             self.__therad = threading.Thread(target=self.__task_thread_new, args=(
                 self.__function, self.__function_arguments,))
             self.__therad.start()
+
+    def task_running(self):
+        return self.__run_task
   
     def __task_thread_new(self, function, function_arguments):
-        while self.run_taks:
+        while self.__run_task:
             if self.__check_task():
                 function(*function_arguments)
             time.sleep(0.0000001)
